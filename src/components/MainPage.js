@@ -1,35 +1,52 @@
 import React, { Component } from 'react'
-import Jumbotron from './Jumbotron'
-
+import firebase from 'firebase'
+import { withRouter } from 'react-router-dom'
+import 'firebase/firestore'
 
 class MainPage extends Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      db:firebase.firestore(),
+      images:[]
+    }
+    this.handleOnclick = this.handleOnclick.bind(this)
+  }
+  componentDidMount(){
+    const settings = {timestampsInSnapshots: true};
+    this.state.db.settings(settings);
+    this.state.db.collection("images").orderBy("time").get().then(res => {
+      res.forEach(res => {
+        let data = {
+          id:res.id,
+          image: res.data()
+        }
+       this.setState({images:this.state.images.concat(data)})
+      })
+    })
+  }
+  handleOnclick(e){
+    this.props.history.push(`view/${e.currentTarget.id}`)
+  }
+  renderImage(){
+    return this.state.images.map((value) => {
+      return(
+        <div  key={value.id}  className="ui card" style={{cursor:"pointer"}}>
+          <div  className="image">
+           <img onClick={this.handleOnclick} id={value.id} alt="" src={value.image.imagePath}/>
+          </div>
+        </div>    
+      );
+    });
+  }
   render() {
     return (
-      <div>
-        <Jumbotron/>
-        <div class="album py-5 bg-light">
-          <div class="container">
-            <div class="row">
-              <div class="col-md-4">
-                <div class="card mb-4 box-shadow" style={{"cursor":"pointer"}}>
-                  <img class="card-img-top" src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Gull_portrait_ca_usa.jpg" alt="Card image cap"/>
-                  <div class="card-body">
-                    <p class="card-text">Bạn mình hay chơi cùng xóm</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-outline-primary">View</button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                      </div>
-
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+      <div className="ui container">
+        <div className="ui three stackable cards">
+          {this.renderImage()}
         </div>
       </div>  
     )
   }
 }
-export default MainPage
+export default withRouter(MainPage)
