@@ -33,8 +33,6 @@ class Comments extends Component {
     }
   }
   componentDidMount(){
-    const settings = {timestampsInSnapshots: true};
-    this.state.db.settings(settings);
     this.state.db.collection("Comments").where("imageId","==",this.props.imageId).onSnapshot(res =>{
       let arr = []
       res.forEach(res => {
@@ -43,7 +41,7 @@ class Comments extends Component {
           comment: res.data()
         }
         arr.push(data)
-        this.setState({comments:arr})
+        this.setState({comments:arr.slice(0)})
       })
     })
   }

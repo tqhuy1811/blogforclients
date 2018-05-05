@@ -1,27 +1,25 @@
 import React, { Component } from 'react'
 import firebase from 'firebase'
 import { withRouter } from 'react-router-dom'
-import 'firebase/firestore'
+
 
 class MainPage extends Component {
   constructor(props){
     super(props)
     this.state = {
       db:firebase.firestore(),
-      images:[]
+      data:[]
     }
     this.handleOnclick = this.handleOnclick.bind(this)
   }
   componentDidMount(){
-    const settings = {timestampsInSnapshots: true};
-    this.state.db.settings(settings);
     this.state.db.collection("images").orderBy("time").get().then(res => {
       res.forEach(res => {
         let data = {
           id:res.id,
-          image: res.data()
+          data: res.data()
         }
-       this.setState({images:this.state.images.concat(data)})
+       this.setState({data:this.state.data.concat(data)})
       })
     })
   }
@@ -29,24 +27,20 @@ class MainPage extends Component {
     this.props.history.push(`view/${e.currentTarget.id}`)
   }
   renderImage(){
-    return this.state.images.map((value) => {
+    return this.state.data.map((value) => {
       return(
-        <div  key={value.id}  className="ui card" style={{cursor:"pointer"}}>
-          <div  className="image">
-           <img onClick={this.handleOnclick} id={value.id} alt="" src={value.image.imagePath}/>
+          <div className="column">
+              <img onClick={this.handleOnclick} className="ui image" id={value.id} alt="" src={value.data.imagePath}/>
           </div>
-        </div>    
       );
     });
   }
   render() {
     return (
-      <div className="ui container">
-        <div className="ui three stackable cards">
+      <div className="ui two column doubling stackable grid container">
           {this.renderImage()}
-        </div>
       </div>  
     )
   }
 }
-export default withRouter(MainPage)
+export default withRouter((MainPage))

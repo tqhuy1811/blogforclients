@@ -8,7 +8,8 @@ class Header extends Component {
 		this.state = { 
 			name: 'Sign In',
 			email: '',
-			db: firebase.firestore()
+			db: firebase.firestore(),
+			display:'hidden'
 		}
 		this.handleOnClick = this.handleOnClick.bind(this)
 	};
@@ -22,12 +23,9 @@ class Header extends Component {
 		}
 		else{
 			firebase.auth().signOut();
-		
 		};
 	};
 	componentDidMount(){
-		const settings = {timestampsInSnapshots: true};
-		this.state.db.settings(settings);
 		firebase.auth().onAuthStateChanged((user) => {
 			if (user) {
 				this.setState({name: 'Sign Out',email:user.email})
@@ -42,8 +40,13 @@ class Header extends Component {
 						})
 					}
 				})
-			} else {
-				this.setState({name:'Sign In'})
+				if(user.email === 'jhmquan@gmail.com'){
+					this.setState({
+						display:'visible'
+					})
+				}
+			} else {	
+				this.setState({name:'Sign In',display:'hidden'})
 			}
 		});
 	};
@@ -54,9 +57,12 @@ class Header extends Component {
 				<Link to="/" className="pink item">
     			Quân Kun
   			</Link>
-  			<Link to="/upload" className="item">
+  			<Link to="/upload" style={{visibility:this.state.display}} className="item">
     			Upload
   			</Link>
+				<Link to="/manage" style={{visibility:this.state.display}} className="item">
+					Manage
+				</Link>
   			<div className="right menu">
     			<span onClick={this.handleOnClick}  className="ui item">
       			{this.state.name}

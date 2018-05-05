@@ -4,6 +4,8 @@ import firebase from 'firebase'
 import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
 
+
+import 'firebase/firestore'
 const config = {
   apiKey: "AIzaSyCvnsJX4ii8vUjg8CbuGtwyugTj4YOgtg0",
   authDomain: "quan-sblog.firebaseapp.com",
@@ -13,7 +15,11 @@ const config = {
   messagingSenderId: "1061580070275"
 };
 firebase.initializeApp(config);
+const settings = {timestampsInSnapshots: true};
+firebase.firestore().settings(settings)
 ReactDOM.render(
-  <App />
+
+    <App />
+
 , document.getElementById('root'));
 registerServiceWorker();

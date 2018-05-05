@@ -41,14 +41,14 @@ class AddPicure extends Component {
   }
   handleSubmit(e){
     e.preventDefault()
-    firebase.storage().ref().child(`${this.state.path}/${Date.now()}`).put(this.state.file).then(res => {
-      this.setState({hidden:'hidden'})
-
+    let path = `${this.state.path}/${Date.now()}`
+    firebase.storage().ref().child(path).put(this.state.file).then(res => {
       this.state.db.collection("images").add({
         status:this.state.status,
         comments:0,
         time:Date.now(),
-        imagePath:res.metadata.downloadURLs[0]
+        imagePath:res.metadata.downloadURLs[0],
+        pathStorage:path
       })
       this.setState({
         path:'',
@@ -60,8 +60,6 @@ class AddPicure extends Component {
     })
   }
   componentDidMount(){
-    const settings = {timestampsInSnapshots: true};
-		this.state.db.settings(settings);
   }
   render(){
     return (
