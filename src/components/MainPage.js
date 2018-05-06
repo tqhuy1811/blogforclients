@@ -13,7 +13,7 @@ class MainPage extends Component {
     this.handleOnclick = this.handleOnclick.bind(this)
   }
   componentDidMount(){
-    this.state.db.collection("images").orderBy("time").get().then(res => {
+    this.state.db.collection("images").orderBy("time","desc").get().then(res => {
       res.forEach(res => {
         let data = {
           id:res.id,
@@ -29,17 +29,36 @@ class MainPage extends Component {
   renderImage(){
     return this.state.data.map((value) => {
       return(
-          <div className="column">
-              <img onClick={this.handleOnclick} className="ui image" id={value.id} alt="" src={value.data.imagePath}/>
+          <div key={value.id} className="column is-4">
+
+              <img onClick={this.handleOnclick} id={value.id}  alt="" src={value.data.imagePath}/>
           </div>
       );
     });
   }
   render() {
     return (
-      <div className="ui two column doubling stackable grid container">
-          {this.renderImage()}
-      </div>  
+      <div>
+        <section className="hero is-medium is-dark is-bold">
+        <div className="hero-body">
+          <div className="container has-text-centered">
+            <h1 className="title">
+              I am TUI
+            </h1>
+            <h2 className="subtitle">
+              Welcome to my blog
+            </h2>
+          </div>
+        </div>
+      </section>
+        <section className="hero is-fullheight is-light is-bold">
+        <div className="container"style={{marginTop:"2%"}}>
+          <div className="columns is-multiline">
+            {this.renderImage()}
+          </div>
+        </div>
+        </section>
+      </div> 
     )
   }
 }

@@ -27,10 +27,10 @@ class Detail extends Component {
           username: user.displayName,
           profile: user.photoURL
         }
-        this.setState({user:data,display:'hidden',displayInput:!this.state.displayInput})
+        this.setState({user:data,display:'hidden',displayInput:false})
       }
       else{
-        this.setState({display:'visible',displayInput:!this.state.displayInput})
+        this.setState({display:'visible',displayInput:true})
       }
     })
   }
@@ -53,30 +53,39 @@ class Detail extends Component {
   renderImage(){
     if(this.state.data!==null){
       return( 
-        <div className="ui raised segment" style={{backgroundColor:"whitesmoke"}} >
-          <h3 className="ui dividing header">
+        <div className="columns is-centered">
+         <div className="column is-10 box">
+         <h6 className="subtitle">
           {moment(this.state.data.time).format('LLLL')}
-          </h3>
-          <p className="ui text container" style={{fontSize:"20px"}}>
+          </h6>
+          <p className="has-text-centered is-capitalized is-size-12 has-text-weight-bold">
             {this.state.data.status}
           </p>
-          <img alt="" src={this.state.data.imagePath} className="ui centered huge rounded image" />
+          <figure className="image is-3by2">
+            <img alt="" src={this.state.data.imagePath} />
+          </figure>  
+         </div>
         </div> 
       )
     }
   }
   render(){
     return(
-      <div className="ui container" onSubmit={this.handleEnter} style={{overflow:"auto"}} >
+      <div className="container box" onSubmit={this.handleEnter} style={{overflow:"auto",backgroundColor:"whitesmoke"}} >
         {this.renderImage()}
-        <p className="ui text container" style={{fontSize:"17px",visibility:this.state.display}}>
+        <p className="has-text-centered" style={{fontSize:"17px",visibility:this.state.display}}>
           Hãy đăng nhập để chửi Quân
-        </p>  
-        <form className="ui form" hidden={this.state.displayInput} >
-          <div className="field">
-            <input placeholder="comment chửi nó đi bay"  onChange={this.handleOnChange}  value={this.state.comment}/>
-          </div>
-        </form>
+        </p>
+        <div className="columns is-centered">
+          <div className="column is-10">
+            <form className="field"  hidden={this.state.displayInput} >
+              <div className="control">
+                <input placeholder="comment chửi nó đi bay" className="input"  onChange={this.handleOnChange}  value={this.state.comment}/>
+              </div> 
+            </form>
+          </div>  
+        </div>  
+
         <Comment imageId={this.props.match.params.id}/>  
       </div>  
     )

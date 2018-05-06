@@ -9,7 +9,7 @@ class Header extends Component {
 			name: 'Sign In',
 			email: '',
 			db: firebase.firestore(),
-			display:'hidden'
+			display:'hidden',
 		}
 		this.handleOnClick = this.handleOnClick.bind(this)
 	};
@@ -50,25 +50,55 @@ class Header extends Component {
 			}
 		});
 	};
+	renderNavBar(){
+		if(this.state.display ==='visible'){
+			return(
+				<nav className="navbar is-black">
+				<div className="navbar-brand">
+				<Link to="/" className="navbar-item has-text-danger" style={{fontSize:"30px"}}>
+					TUI
+				</Link>	
+			</div>
+			<div className="navbar-start">
+				<Link to="/upload" style={{visibility:this.state.display}} className="has-text-danger is-size-12 navbar-item">
+					Upload
+				</Link>
+				<Link to="/manage" style={{visibility:this.state.display}} className="navbar-item has-text-danger is-size-12">
+					Manage
+				</Link>
+			</div>		
+
+			<div className="navbar-end">
+				<div onClick={this.handleOnClick}  className="navbar-item navbar-link has-text-danger is-size-12">
+					{this.state.name}
+				</div>
+			</div>
+			</nav>
+			)
+		}
+		else{
+			return(
+				<nav className="navbar is-black">
+					<div className="navbar-brand">
+						<Link to="/" className="navbar-item has-text-danger" style={{fontSize:"30px"}}>
+							TUI
+						</Link>	
+					</div>	
+					<div className="navbar-end">
+					<div onClick={this.handleOnClick}  className="navbar-item has-text-danger is-hover is-size-12">
+						{this.state.name}
+					</div>
+					</div>
+				</nav>
+			)
+		}
+	}
 
 	render(){
 		return(
-			<div className="ui pink inverted huge menu"	>
-				<Link to="/" className="pink item">
-    			Quân Kun
-  			</Link>
-  			<Link to="/upload" style={{visibility:this.state.display}} className="item">
-    			Upload
-  			</Link>
-				<Link to="/manage" style={{visibility:this.state.display}} className="item">
-					Manage
-				</Link>
-  			<div className="right menu">
-    			<span onClick={this.handleOnClick}  className="ui item">
-      			{this.state.name}
-    			</span>
-  			</div>
-			</div>
+			<div>
+				{this.renderNavBar()}
+			</div>		
 		)
 	}
 }

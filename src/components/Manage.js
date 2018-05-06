@@ -39,7 +39,7 @@ class Manage extends Component {
       })
       this.state.db.collection("images").doc(id).delete().then(res =>{
         firebase.storage().refFromURL(path).delete().then(res => {
-            this.props.history.push("/")
+            window.location.reload()
         })
       })
     }
@@ -51,25 +51,28 @@ class Manage extends Component {
     if(this.state.data !== null){
     return this.state.data.map(value => {
       return(
-        <div key={value.id} className="item">
-          <div className="ui small image">
-            <img alt="" src={value.data.imagePath} />
-          </div>
-          <div className="fixed content">
-            <span className="header">{value.data.status}</span>
-            <div className="meta">
-              <span>{moment(value.data.time).format('LLLL')}</span>
-            </div>
-            <div className="extra">
-              <div onClick={this.handleDelete.bind(this,value.data.imagePath,value.id)}  className="ui right floated red button">
-                Delete
-              </div>  
-              <div onClick={this.handleOnEdit} id={value.id} className="ui right floated primary button">
-                {this.state.name}
-              <i className="right chevron icon"></i>
-            </div> 
-            </div> 
-          </div>           
+        <div key={value.id} className="box column is-10">
+          <article className="media">
+            <figure className="image is-128x128" style={{display:"flex",alignItems:"center"}}>
+              <img alt="" src={value.data.imagePath} />
+            </figure>
+            <div className="media content" style={{marginLeft:"8px"}}>
+              <div className="content"> 
+                <p>
+                  <small>{moment(value.data.time).format('LLLL')}</small>
+                  <br/> 
+                </p>
+                <div className="field is-grouped" style={{marginTop:"2%"}}>
+                    <div className="control">
+                      <button id={value.id}  onClick={this.handleOnEdit} className="button is-link">Edit</button>
+                    </div>
+                    <div className="control">
+                      <button onClick={this.handleDelete.bind(this,value.data.imagePath,value.id)} className="button is-danger">Delete</button>
+                    </div>    
+                  </div>   
+              </div>
+            </div>  
+          </article> 
         </div>  
       )
     })
@@ -77,8 +80,8 @@ class Manage extends Component {
   }
   render(){
     return(
-      <div className="ui container">
-        <div className="ui relaxed divided items"> 
+      <div className="container">
+        <div style={{marginTop:"2%"}} className="columns is-multiline"> 
           {this.renderAllImages()}
         </div>  
       </div>

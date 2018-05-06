@@ -14,26 +14,31 @@ class Comments extends Component {
     if(this.state.comments.length !== 0){
       return this.state.comments.map(value => {
         return(
-          <div key={value.id} className="comment">
-            <a className="avatar">
-              <img alt="" src={value.comment.user.profile}/>
-            </a>
-            <div className="content">
-              <a className="author">{value.comment.user.username}</a>
-              <div className="metadata">
-                <span className="date">{moment(value.comment.time).fromNow()}</span>
-              </div>
-              <div className="text">
-                {value.comment.comment}
-              </div>
-            </div>
+          <div key={value.id} className="column box is-10">
+            <article className="media">
+              <figure className="media-left">
+                <p className="image is-32x32">
+                  <img alt="" src={value.comment.user.profile}/>
+                </p>
+              </figure>
+              <div className="media-content">
+                <div className="content">
+                <p>
+                  <strong>{value.comment.user.username}</strong>
+                  <small> {moment(value.comment.time).fromNow()}</small>
+                </p>
+                  {value.comment.comment}    
+                </div>  
+              </div>    
+            </article>  
           </div>  
+ 
         )
       })
     }
   }
   componentDidMount(){
-    this.state.db.collection("Comments").where("imageId","==",this.props.imageId).onSnapshot(res =>{
+    this.state.db.collection("Comments").where("imageId","==",this.props.imageId).orderBy("time","desc").onSnapshot(res =>{
       let arr = []
       res.forEach(res => {
         let data = {
@@ -47,9 +52,16 @@ class Comments extends Component {
   }
   render(){
     return(
-      <div className="ui comments" style={{marginBottom:"4%"}}>
-        <h3 className="ui dividing header">Comments</h3>
-        {this.renderComments()}
+      <div  style={{marginBottom:"4%"}}>
+        <div className="columns is-centered">
+          <div className="column is-10">
+            <h3 className="subtitle">Comments</h3>
+          </div>
+        </div>
+        <div className="columns is-centered is-multiline">   
+          {this.renderComments()}
+        </div>    
+ 
       </div>  
     )
   }

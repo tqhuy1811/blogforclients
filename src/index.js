@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import firebase from 'firebase'
 import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
+import '../node_modules/bulma/css/bulma.min.css'
 
 
 import 'firebase/firestore'

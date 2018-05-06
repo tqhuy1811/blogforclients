@@ -38,13 +38,15 @@ class Edit extends Component {
  renderImage(){
    if(this.state.data!== null){
      return(
-       <div>
-        <img src={this.state.data.imagePath} alt="" className="ui huge centered image" />
-        <form style={{marginTop:"4%"}} onSubmit={this.handleSubmit} className="ui form">
-          <div className="field">
-            <textarea required value={this.state.status} onChange={this.handleOnChange}></textarea>
+       <div className="column is-10">
+        <figure className="image is-4by3">
+          <img src={this.state.data.imagePath} alt=""/>
+        </figure>
+        <form style={{marginTop:"4%"}} onSubmit={this.handleSubmit} className="field">
+          <div className="control">
+            <textarea required className="textarea" value={this.state.status} onChange={this.handleOnChange}></textarea>
           </div>
-          <button className="ui primary button right floated">Save</button>  
+          <button className="button is-link is-pulled-right" style={{marginTop:"2%"}}>Save</button>  
         </form>  
        </div>  
      )
@@ -53,8 +55,11 @@ class Edit extends Component {
  
  render(){
    return(
-     <div className="ui container">
+     <div className="box container" style={{backgroundColor:"whitesmoke"}}>
+      <div className="columns is-centered">
       {this.renderImage()}
+      </div>  
+
      </div>  
    )
  }
