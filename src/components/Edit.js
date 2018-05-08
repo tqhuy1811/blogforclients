@@ -39,9 +39,7 @@ class Edit extends Component {
    if(this.state.data!== null){
      return(
        <div className="column is-10">
-        <figure className="image is-4by3">
-          <img src={this.state.data.imagePath} alt=""/>
-        </figure>
+         <img src={this.state.data.imagePath} alt=""/>
         <form style={{marginTop:"4%"}} onSubmit={this.handleSubmit} className="field">
           <div className="control">
             <textarea required className="textarea" value={this.state.status} onChange={this.handleOnChange}></textarea>

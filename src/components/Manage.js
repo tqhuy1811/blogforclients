@@ -53,7 +53,7 @@ class Manage extends Component {
       return(
         <div key={value.id} className="box column is-10">
           <article className="media">
-            <figure className="image is-128x128" style={{display:"flex",alignItems:"center"}}>
+            <figure className="image is-64x64" >
               <img alt="" src={value.data.imagePath} />
             </figure>
             <div className="media content" style={{marginLeft:"8px"}}>

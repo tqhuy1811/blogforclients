@@ -61,9 +61,7 @@ class Detail extends Component {
           <p className="has-text-centered is-capitalized is-size-12 has-text-weight-bold">
             {this.state.data.status}
           </p>
-          <figure className="image is-3by2">
             <img alt="" src={this.state.data.imagePath} />
-          </figure>  
          </div>
         </div> 
       )
